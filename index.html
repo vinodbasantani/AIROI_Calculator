@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Interactive AI Use Case ROI Calculator. Estimate annual savings, net benefit, first-year ROI and payback from your own assumptions.">
+<title>AI Use Case ROI Calculator</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#657187;--line:#e1e7f0;--blue:#245be8;--blue2:#eaf0ff;--green:#087f5b;--red:#b42318;--shadow:0 12px 34px rgba(20,35,70,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 18px 48px}.hero{padding:26px 0 20px}.eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.13em;font-weight:800;color:var(--blue)}h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.08;letter-spacing:-.04em;margin:10px 0 12px}.hero p{max-width:700px;color:var(--muted);font-size:1.08rem;margin:0}.tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.tag{background:var(--blue2);color:#2347a3;padding:6px 10px;border-radius:999px;font-size:.82rem;font-weight:650}
+.layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:18px;align-items:start}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow)}h2{font-size:1.15rem;margin:0 0 5px;letter-spacing:-.02em}.sub{color:var(--muted);font-size:.9rem;margin:0 0 22px}.field{margin:19px 0}.fieldhead{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}.field label{font-weight:650;font-size:.94rem}.value{font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums;white-space:nowrap}.hint{font-size:.8rem;color:var(--muted);margin-top:5px}input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer}input[type=number]{width:100%;padding:11px 12px;border:1px solid #cfd7e5;border-radius:10px;font:inherit;color:var(--ink);background:#fff}input:focus{outline:3px solid #cbd8ff;border-color:var(--blue)}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.results{position:sticky;top:16px}.resultgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.metric{border:1px solid var(--line);border-radius:14px;padding:15px;background:#fbfcff;min-width:0}.metric span{display:block;font-size:.82rem;color:var(--muted);margin-bottom:6px}.metric strong{display:block;font-size:clamp(1.3rem,3vw,1.8rem);line-height:1.2;letter-spacing:-.035em;overflow-wrap:anywhere}.good{color:var(--green)}.bad{color:var(--red)}.note{font-size:.82rem;color:var(--muted);margin:14px 0 0}.formula{background:#f7f9fc;border-radius:12px;padding:13px;font-size:.85rem;color:#4c5870}.barwrap{height:9px;background:#e7ebf3;border-radius:99px;overflow:hidden;margin-top:9px}.bar{height:100%;width:0;background:var(--blue);transition:width .15s}.footer{color:var(--muted);font-size:.82rem;margin-top:20px}.footer a{color:var(--blue)}button{border:0;border-radius:10px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer;background:var(--blue);color:white}button.secondary{background:#edf1f8;color:#24314a}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.smallprint{border-top:1px solid var(--line);padding-top:14px;margin-top:18px;color:var(--muted);font-size:.78rem}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.results{position:static}.card{padding:18px}.wrap{padding:18px 12px 32px}.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="hero">
+<div class="eyebrow">AI strategy • Business case • Value realization</div>
+<h1>AI Use Case<br>ROI Calculator</h1>
+<p>Explore whether an AI use case makes financial sense. Adjust the assumptions to estimate annual gross savings, net benefit, first-year ROI and simple payback.</p>
+<div class="tagrow"><span class="tag">Editable assumptions</span><span class="tag">Instant estimates</span><span class="tag">No sign-in</span></div>
+</header>
+<div class="layout">
+<section class="card" aria-labelledby="inputsTitle">
+<h2 id="inputsTitle">1. Enter your assumptions</h2>
+<p class="sub">Use your own baseline data. Defaults are illustrative, not benchmarks.</p>
+<div class="field">
+<div class="fieldhead"><label for="volume">Annual request / transaction volume</label><output class="value" id="volumeOut">100,000</output></div>
+<input id="volume" type="range" min="10000" max="500000" step="10000" value="100000">
+<div class="hint">How many requests or transactions are processed each year?</div>
+</div>
+<div class="field">
+<div class="fieldhead"><label for="cost">Current cost per request (₹)</label><output class="value" id="costOut">₹200</output></div>
+<input id="cost" type="range" min="50" max="1000" step="50" value="200">
+</div>
+<div class="field">
+<div class="fieldhead"><label for="saving">Expected handling-cost reduction</label><output class="value" id="savingOut">30%</output></div>
+<input id="saving" type="range" min="5" max="60" step="5" value="30">
+<div class="hint">Use a conservative estimate supported by a pilot or credible evidence.</div>
+</div>
+<div class="field">
+<div class="fieldhead"><label for="coverage">Share of requests eligible for AI savings</label><output class="value" id="coverageOut">70%</output></div>
+<input id="coverage" type="range" min="10" max="100" step="5" value="70">
+</div>
+<div class="two">
+<div class="field">
+<label for="investment">One-time implementation investment (₹)</label>
+<input id="investment" type="number" min="0" step="50000" value="2500000">
+<div class="hint">Build, integration, testing and rollout</div>
+</div>
+<div class="field">
+<label for="annualRun">Annual operating cost (₹)</label>
+<input id="annualRun" type="number" min="0" step="50000" value="800000">
+<div class="hint">Models, cloud, monitoring and support</div>
+</div>
+</div>
+<div class="actions"><button type="button" id="reset">Reset assumptions</button><button type="button" class="secondary" id="copy">Copy results</button></div>
+</section>
+<aside class="card results" aria-labelledby="resultsTitle">
+<h2 id="resultsTitle">2. Estimated business case</h2>
+<p class="sub">Results recalculate as you change the inputs.</p>
+<div class="resultgrid">
+<div class="metric"><span>Annual gross savings</span><strong id="gross">₹42.0 lakh</strong></div>
+<div class="metric"><span>Annual net benefit</span><strong id="net">₹34.0 lakh</strong></div>
+<div class="metric"><span>First-year ROI</span><strong id="roi">36.0%</strong></div>
+<div class="metric"><span>Simple payback</span><strong id="payback">8.8 months</strong></div>
+</div>
+<div class="field">
+<div class="fieldhead"><label>Annual gross savings vs. annual operating cost</label><output id="coverageNote" class="value">52.5×</output></div>
+<div class="barwrap"><div class="bar" id="bar"></div></div>
+</div>
+<div class="formula"><strong>Calculation method</strong><br>Gross savings = volume × current unit cost × cost reduction × eligible share<br>Net benefit = gross savings − annual operating cost<br>First-year ROI = (net benefit − one-time investment) ÷ one-time investment<br>Simple payback = one-time investment ÷ annual net benefit × 12</div>
+<p class="note" id="status">Illustrative estimate. Validate assumptions and realized savings before making an investment decision.</p>
+<div class="smallprint">This simplified calculator assumes steady annual benefits and excludes ramp-up, taxes, discounting, working-capital effects and benefits that are not financially realized. If one-time investment is zero, ROI is shown as not applicable.</div>
+</aside>
+</div>
+<div class="footer">Created as an educational AI consulting resource. Use it to structure a discussion—not as a substitute for a validated business case.</div>
+</main>
+<script>
+const ids=['volume','cost','saving','coverage','investment','annualRun'];
+const defaults={volume:100000,cost:200,saving:30,coverage:70,investment:2500000,annualRun:800000};
+const $=id=>document.getElementById(id);
+const num=id=>Math.max(0,Number($(id).value)||0);
+const fmt=n=>new Intl.NumberFormat('en-IN',{maximumFractionDigits:1}).format(n);
+const money=n=>'₹'+fmt(n);
+const lakh=n=>'₹'+fmt(n/100000)+' lakh';
+function calculate(){
+ const volume=num('volume'),cost=num('cost'),saving=num('saving')/100,coverage=num('coverage')/100,investment=num('investment'),run=num('annualRun');
+ const gross=volume*cost*saving*coverage,net=gross-run;
+ const roi=investment>0?(net-investment)/investment*100:null;
+ const payback=net>0&&investment>0?investment/net*12:(investment===0?0:null);
+ $('volumeOut').textContent=fmt(volume);$('costOut').textContent=money(cost);$('savingOut').textContent=fmt(saving*100)+'%';$('coverageOut').textContent=fmt(coverage*100)+'%';
+ $('gross').textContent=lakh(gross);$('net').textContent=lakh(net);$('net').className=net>=0?'good':'bad';
+ $('roi').textContent=roi===null?'N/A':fmt(roi)+'%';$('roi').className=roi!==null&&roi>=0?'good':'bad';
+ $('payback').textContent=payback===null?'Not achieved':payback===0?'Immediate':fmt(payback)+' months';$('payback').className=payback!==null?'good':'bad';
+ const ratio=run>0?gross/run:null;$('coverageNote').textContent=ratio===null?'N/A':fmt(ratio)+'×';
+ $('bar').style.width=(ratio===null?0:Math.min(100,ratio/5*100))+'%';
+ $('status').textContent=net<=0?'Under these assumptions, annual operating costs equal or exceed estimated gross savings. Revisit the use case or assumptions.':(roi!==null&&roi<0?'The first-year business case is negative under these assumptions; assess ramp-up and multi-year economics before deciding.':'Illustrative estimate only. Validate assumptions, delivery costs and realized savings before making an investment decision.');
+}
+ids.forEach(id=>$(id).addEventListener('input',calculate));
+$('reset').addEventListener('click',()=>{ids.forEach(id=>$(id).value=defaults[id]);calculate()});
+$('copy').addEventListener('click',async()=>{const s=`AI Use Case ROI Calculator results\nAnnual volume: ${fmt(num('volume'))}\nCurrent cost/request: ${money(num('cost'))}\nHandling cost reduction: ${num('saving')}%\nEligible share: ${num('coverage')}%\nOne-time investment: ${money(num('investment'))}\nAnnual operating cost: ${money(num('annualRun'))}\nAnnual gross savings: ${$('gross').textContent}\nAnnual net benefit: ${$('net').textContent}\nFirst-year ROI: ${$('roi').textContent}\nSimple payback: ${$('payback').textContent}\nIllustrative estimate; validate all assumptions.`;try{await navigator.clipboard.writeText(s);$('copy').textContent='Copied!';setTimeout(()=>$('copy').textContent='Copy results',1600)}catch(e){window.prompt('Copy your results:',s)}});
+calculate();
+</script>
+</body>
+</html>
